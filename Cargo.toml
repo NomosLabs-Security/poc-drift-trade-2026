@@ -1,0 +1,16 @@
+[workspace]
+members = ["programs/*"]
+resolver = "2"
+
+# Pin blake3 to avoid constant_time_eq 0.4.2 which requires edition2024
+# (Solana's cargo build-sbf bundles Cargo 1.84 which doesn't support it)
+[workspace.dependencies]
+blake3 = "=1.5.5"
+
+[profile.release]
+overflow-checks = true
+lto = "fat"
+codegen-units = 1
+
+[profile.test]
+opt-level = 0
